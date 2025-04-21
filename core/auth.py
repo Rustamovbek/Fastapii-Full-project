@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 from database import SessionLocal
 from fastapi import Depends, HTTPException
@@ -42,7 +42,7 @@ def create_access_token(email: str, user_id: int, expires_delta: timedelta):
     to_encode = {
         "sub": email,
         "id": user_id,
-        "exp": datetime.utcnow() + expires_delta,
+        "exp": datetime.now(timezone.utc) + expires_delta,
     }
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
