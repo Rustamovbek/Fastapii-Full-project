@@ -1,0 +1,55 @@
+name: FastAPI CD
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  deploy_fastapi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy FastAPI via SSH
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            set -e 
+
+            REPO_DIR="fastapi-app"
+
+            if [ ! -d "$REPO_DIR" ]; then
+              echo "Cloning repository into $REPO_DIR..."
+              git clone https://github.com/theMirmakhmudov/FastAPI-Users-Task-v2.git $REPO_DIR
+            else
+              echo "Repository already exists, pulling the latest changes..."
+              cd $REPO_DIR
+              git pull origin master
+              cd ..
+            fi
+
+            if [ ! -d "$REPO_DIR" ]; then
+              echo "Error: The directory '$REPO_DIR' does not exist after cloning or pulling the repository."
+              exit 1
+            fi
+
+            echo "Navigating into $REPO_DIR directory..."
+            cd $REPO_DIR
+
+            if [ ! -d "venv" ]; then
+              echo "Creating virtual environment..."
+              python3 -m venv venv
+            fi
+
+            source venv/bin/activate
+
+            echo "Installing dependencies..."
+            pip install --upgrade pip
+            pip install -r requirements.txt
+
+            echo "✅ Successfully deployed"
