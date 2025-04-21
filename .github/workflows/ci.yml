@@ -34,7 +34,7 @@ jobs:
           echo "DB_HOST=${{ secrets.DATABASE_HOST }}" >> .env
           echo "DB_PORT=${{ secrets.DATABASE_PORT }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-          echo "ALGORITHM=${{ secrets.ALGORITHM }} >> .env
+          echo "ALGORITHM=${{ secrets.ALGORITHM }}" >> .env
 
       - name: Run Tests
         run: |
