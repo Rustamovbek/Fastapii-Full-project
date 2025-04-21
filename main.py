@@ -2,6 +2,8 @@ from typing import Annotated
 from datetime import timedelta
 from fastapi import FastAPI, HTTPException, status, Depends, APIRouter
 from sqlalchemy.orm import Session
+from routers.lesson import router as lesson_router
+from routers.course import router as course_router
 
 import routers.course
 from database import engine, SessionLocal
@@ -104,4 +106,5 @@ async def login_for_access_token(
 
 
 app.include_router(router)
-app.include_router(routers.course.router)
+app.include_router(course_router)
+app.include_router(lesson_router)

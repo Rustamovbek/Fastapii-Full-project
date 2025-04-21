@@ -16,6 +16,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)
     courses = relationship("Course", back_populates="author")
+    lessons = relationship("Lesson", back_populates="author")
 
 class BaseResponse(BaseModel):
     status: bool = True
