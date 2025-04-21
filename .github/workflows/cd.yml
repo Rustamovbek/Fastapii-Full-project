@@ -25,7 +25,7 @@ jobs:
 
             if [ ! -d "$REPO_DIR" ]; then
               echo "Cloning repository into $REPO_DIR..."
-              git clone https://github.com/theMirmakhmudov/FastAPI-Users-Task-v2.git $REPO_DIR
+              git clone https://github.com/theMirmakhmudov/FastAPI-Task-JWT.git $REPO_DIR
             else
               echo "Repository already exists, pulling the latest changes..."
               cd $REPO_DIR
