@@ -23,7 +23,7 @@ jobs:
           script: |
             set -e 
 
-            REPO_DIR="fastapi-app"
+            REPO_DIR="fastapi-task"
 
             if [ ! -d "$REPO_DIR" ]; then
               echo "Cloning repository into $REPO_DIR..."
@@ -53,6 +53,9 @@ jobs:
             echo "Installing dependencies..."
             pip install --upgrade pip
             pip install -r requirements.txt
+            
+            echo "Restarting FastAPI service..."
+            sudo systemctl restart fastapi-task.service
 
             echo "✅ Successfully deployed"
             
