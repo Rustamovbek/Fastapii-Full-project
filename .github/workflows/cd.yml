@@ -53,3 +53,4 @@ jobs:
             pip install -r requirements.txt
 
             echo "✅ Successfully deployed"
+            
