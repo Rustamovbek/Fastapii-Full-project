@@ -96,3 +96,7 @@ dmypy.json
 .pyre/
 .pytype/
 cython_debug/
+/.idea/misc.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
