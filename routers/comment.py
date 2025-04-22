@@ -7,7 +7,7 @@ from core.auth import get_db, get_current_user
 from models.user import User
 import crud.comment as comment_crud
 
-router = APIRouter(prefix="/comments", tags=["Comments"])
+router = APIRouter(prefix="/comments", tags=["Comments-API"])
 
 
 @router.post("/", response_model=CommentResponse, status_code=status.HTTP_201_CREATED)
