@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta, timezone
 from typing import Optional
-from database import SessionLocal
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import JWTError, jwt
@@ -17,16 +16,6 @@ SECRET_KEY = conf.secret_key
 ALGORITHM = conf.algorithm
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = HTTPBearer()
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-db_dependency = Depends(get_db)
 
 
 def authenticate_user(email: str, password: str, db: Session):

@@ -9,7 +9,7 @@ from fastapi.testclient import TestClient
 import uuid
 
 from main import app
-from database import Base
+from core.database import Base
 from main import get_db
 from models.user import User
 

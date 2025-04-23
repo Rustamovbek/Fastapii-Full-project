@@ -1,11 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT
-
 from crud import lesson as crud_lesson
 from schemas.lesson import LessonCreate, LessonUpdate, LessonOut
-from core.auth import get_current_user, get_db
+from core.dependencies import DBSessionDep, CurrentUserDep, db_dependencies
 
 router = APIRouter(
     prefix="/lessons",
@@ -15,8 +14,8 @@ router = APIRouter(
 @router.post("/", response_model=LessonOut, status_code=HTTP_201_CREATED)
 def create_lesson(
     lesson: LessonCreate,
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    db: DBSessionDep,
+    current_user: CurrentUserDep
 ):
     return crud_lesson.create_lesson(db, lesson, author_id=current_user["id"])
 
@@ -24,7 +23,7 @@ def create_lesson(
 @router.get("/{lesson_id}", response_model=LessonOut)
 def read_lesson(
     lesson_id: int,
-    db: Session = Depends(get_db)
+    db: DBSessionDep
 ):
     db_lesson = crud_lesson.get_lesson(db, lesson_id)
     if not db_lesson:
@@ -36,7 +35,7 @@ def read_lesson(
 def read_lessons(
     skip: int = 0,
     limit: int = 10,
-    db: Session = Depends(get_db)
+    db: Session = db_dependencies
 ):
     return crud_lesson.get_lessons(db, skip, limit)
 
@@ -45,8 +44,8 @@ def read_lessons(
 def update_lesson(
     lesson_id: int,
     lesson: LessonUpdate,
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    db: DBSessionDep,
+    current_user: CurrentUserDep
 ):
     db_lesson = crud_lesson.get_lesson(db, lesson_id)
     if not db_lesson:
@@ -65,8 +64,8 @@ def update_lesson(
 @router.delete("/{lesson_id}", status_code=HTTP_204_NO_CONTENT)
 def delete_lesson(
     lesson_id: int,
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    db: DBSessionDep,
+    current_user: CurrentUserDep
 ):
     db_lesson = crud_lesson.get_lesson(db, lesson_id)
     if not db_lesson:

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey
 from sqlalchemy.orm import relationship
 
-from database import Base
+from core.database import Base
 
 class Lesson(Base):
     __tablename__ = 'lessons'
