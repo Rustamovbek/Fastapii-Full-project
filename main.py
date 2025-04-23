@@ -4,6 +4,8 @@ from fastapi import FastAPI, HTTPException, status, Depends, APIRouter
 from sqlalchemy.orm import Session
 from routers.lesson import router as lesson_router
 from routers.course import router as course_router
+from routers.rating import router as rating_router
+from routers.comment import router as comment_router
 from database import engine, SessionLocal
 from core.auth import (
     get_current_user,
@@ -88,16 +90,16 @@ async def login_for_access_token(
         form_data: LoginRequest,
         db: DBSessionDep
 ):
-    user = authenticate_user(form_data.email, form_data.password, db)
-    if not user:
+    auth_user = authenticate_user(form_data.email, form_data.password, db)
+    if not auth_user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Email or password incorrect"
         )
 
     token = create_access_token(
-        email=user.email,
-        user_id=user.id,
+        email=auth_user.email,
+        user_id=auth_user.id,
         expires_delta=timedelta(minutes=20)
     )
     return {"access_token": token, "token_type": "Bearer"}
@@ -106,3 +108,5 @@ async def login_for_access_token(
 app.include_router(router)
 app.include_router(course_router)
 app.include_router(lesson_router)
+app.include_router(comment_router)
+app.include_router(rating_router)
