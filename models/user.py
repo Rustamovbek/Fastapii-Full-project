@@ -15,3 +15,6 @@ class User(Base):
     is_admin = Column(Boolean, default=False)
     courses = relationship("Course", back_populates="author")
     lessons = relationship("Lesson", back_populates="author")
+
+    def __str__(self):
+        return f"{self.id, self.full_name, self.email, self.is_admin}"

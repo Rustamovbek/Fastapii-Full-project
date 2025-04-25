@@ -10,3 +10,6 @@ class Course(Base):
     description = Column(String, nullable=True)
     author_id = Column(Integer, ForeignKey("users.id"))
     author = relationship("User")
+
+    def __str__(self):
+        return f"{self.id, self.title, self.author_id}"

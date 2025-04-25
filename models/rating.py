@@ -8,3 +8,6 @@ class Rating(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     lesson_id = Column(Integer, ForeignKey("lessons.id"))
     stars = Column(Integer, nullable=False)
+
+    def __str__(self):
+        return f"{self.id, self.user_id, self.lesson_id, self.stars}"
